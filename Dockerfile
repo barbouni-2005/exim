@@ -10,6 +10,8 @@ RUN mkdir /exim/src/Local
 
 COPY local /exim/src/Local/Makefile
 
+ENV EXIM_RELEASE_VERSION fuzzable
+
 RUN make -C /exim/src && make -C /exim/src install
 
 RUN mkdir /inputs && echo foo > /inputs/foo
