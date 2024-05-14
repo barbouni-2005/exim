@@ -18,5 +18,7 @@ RUN mkdir /inputs
 
 COPY seed /inputs/
 
-CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "-t", "5000", "-m", "none", "-Q", "--", "/exim/src/build-Linux-x86_64/exim", "-bs", "-v"]
+COPY dictionary.txt /dictionary.txt
+
+CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "-x", "/dictionary.txt", "-t", "5000", "-m", "none", "-Q", "--", "/exim/src/build-Linux-x86_64/exim", "-bs", "-v"]
 
