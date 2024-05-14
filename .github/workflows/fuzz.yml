@@ -36,13 +36,6 @@ jobs:
         push: true
         tags: ghcr.io/barbouni-2005/exim:latest
 
-    - name: Generate artifact attestation
-      uses: actions/attest-build-provenance@v1
-      with:
-        subject-name: ghcr.io/barbouni-2005/exim
-        subject-digest: ${{ steps.push.outputs.digest }}
-        push-to-registry: true
-
     - name: Create a directory for storing test cases
       run: mkdir -p /tmp/exim-testcases
 
