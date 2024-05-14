@@ -43,7 +43,7 @@ jobs:
       run: echo 'core' | sudo tee /proc/sys/kernel/core_pattern
 
     - name: Run fuzzing campaign
-      run: docker run --rm -v ${{ github.workspace }}/exim-testcases:/output -u $(id -u):$(id -g) ghcr.io/barbouni-2005/exim:latest
+      run: timeout 300 docker run --rm -v ${{ github.workspace }}/exim-testcases:/output -u $(id -u):$(id -g) ghcr.io/barbouni-2005/exim:latest || true
 
     - name: Compress test cases
       run: tar -czf ${{ github.workspace }}/exim-testcases.tar.gz -C ${{ github.workspace }} exim-testcases

@@ -16,5 +16,5 @@ RUN make -C /exim/src && make -C /exim/src install
 
 RUN mkdir /inputs && echo foo > /inputs/foo
 
-CMD ["afl-fuzz", "-V", "60", "-i", "/inputs", "-o", "/output", "-Q", "--", "/exim/src/build-Linux-x86_64/exim", "-bs", "-v"]
+CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "-Q", "--", "/exim/src/build-Linux-x86_64/exim", "-bs", "-v"]
 
