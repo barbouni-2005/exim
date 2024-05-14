@@ -39,12 +39,18 @@ jobs:
     - name: Create a directory for storing test cases
       run: mkdir -p ${{ github.workspace }}/exim-testcases
 
+    - name: Set core pattern on the host (required for detecting crashes)
+      run: echo 'core' | sudo tee /proc/sys/kernel/core_pattern
+
     - name: Run fuzzing campaign
       run: docker run --rm -v ${{ github.workspace }}/exim-testcases:/output -u $(id -u):$(id -g) ghcr.io/barbouni-2005/exim:latest
+
+    - name: Compress test cases
+      run: tar -czf ${{ github.workspace }}/exim-testcases.tar.gz -C ${{ github.workspace }} exim-testcases
 
     - name: Upload test cases as an artifact
       uses: actions/upload-artifact@v2
       with:
-        name: exim-testcases
-        path: ${{ github.workspace }}/exim-testcases
+        name: exim-testcases.tar.gz
+        path: ${{ github.workspace }}/exim-testcases.tar.gz
 
