@@ -40,7 +40,7 @@ jobs:
       run: mkdir -p ${{ github.workspace }}/exim-testcases
 
     - name: Run fuzzing campaign
-      run: docker run --rm -v ${{ github.workspace }}/exim-testcases:/output ghcr.io/barbouni-2005/exim:latest
+      run: docker run --rm -v ${{ github.workspace }}/exim-testcases:/output -u $(id -u):$(id -g) ghcr.io/barbouni-2005/exim:latest
 
     - name: Upload test cases as an artifact
       uses: actions/upload-artifact@v2
