@@ -37,17 +37,17 @@ jobs:
         tags: ghcr.io/barbouni-2005/exim:latest
 
     - name: Create a directory for storing test cases
-      run: mkdir -p /tmp/exim-testcases
+      run: mkdir -p ${{ github.workspace }}/exim-testcases
 
     - name: Run fuzzing campaign
       uses: addnab/docker-run-action@v3
       with:
         image: ghcr.io/barbouni-2005/exim:latest
-        options: --rm -v /tmp/exim-testcases:/output
+        options: --rm -v ${{ github.workspace }}/exim-testcases:/output
 
     - name: Upload test cases as an artifact
       uses: actions/upload-artifact@v2
       with:
         name: exim-testcases
-        path: /tmp/exim-testcases
+        path: ${{ github.workspace }}/exim-testcases
 
