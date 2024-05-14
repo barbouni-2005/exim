@@ -14,7 +14,9 @@ ENV EXIM_RELEASE_VERSION fuzzable
 
 RUN make -C /exim/src && make -C /exim/src install
 
-RUN mkdir /inputs && echo foo > /inputs/foo
+RUN mkdir /inputs
+
+COPY seed /inputs/
 
 CMD ["afl-fuzz", "-i", "/inputs", "-o", "/output", "-t", "5000", "-m", "none", "-Q", "--", "/exim/src/build-Linux-x86_64/exim", "-bs", "-v"]
 
