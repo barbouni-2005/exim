@@ -33,6 +33,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: barbouni-2005/exim:latest
+        tags: ghcr.io/barbouni-2005/exim:latest
 
 
