@@ -45,12 +45,9 @@ jobs:
         image: ghcr.io/barbouni-2005/exim:latest
         options: --rm -v /tmp/exim-testcases:/output
 
-    - name: Compress results
-      run: tar -czf exim-testcases.tar.gz -C /tmp exim-testcases
-
     - name: Upload test cases as an artifact
       uses: actions/upload-artifact@v2
       with:
-        name: exim-testcases.tar.gz
-        path: exim-testcases.tar.gz
+        name: exim-testcases
+        path: /tmp/exim-testcases
 
