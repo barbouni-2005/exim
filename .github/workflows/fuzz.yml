@@ -30,16 +30,26 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push the target image
+      id: push
       uses: docker/build-push-action@v5
       with:
         push: true
         tags: ghcr.io/barbouni-2005/exim:latest
 
+    - name: Generate artifact attestation
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-name: ghcr.io/barbouni-2005/exim
+        subject-digest: ${{ steps.push.outputs.digest }}
+        push-to-registry: true
+
     - name: Create a directory for storing test cases
       run: mkdir -p /tmp/exim-testcases
 
-    - name: Run a fuzzing campaign for 60s
-      run: timeout 60 docker run -v /tmp/exim-testcases:/output --rm ghcr.io/barbouni-2005/exim:latest
+    - name: Run fuzzing campaign
+      uses: addnab/docker-run-action@v3
+      with:
+        image: ghcr.io/barbouni-2005/exim:latest
 
     - name: Upload test cases as an artifact
       uses: actions/upload-artifact@v2
