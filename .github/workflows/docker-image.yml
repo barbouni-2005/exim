@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Fuzz CI
 
 on:
   push:
@@ -35,4 +35,15 @@ jobs:
         push: true
         tags: ghcr.io/barbouni-2005/exim:latest
 
+    - name: Create a directory for storing test cases
+      run: mkdir -p /tmp/exim-testcases
+
+    - name: Run a fuzzing campaign for 60s
+      run: timeout 60 docker run -v /tmp/exim-testcases:/output --rm ghcr.io/barbouni-2005/exim:latest
+
+    - name: Upload test cases as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: exim-testcases
+        path: /tmp/exim-testcases
 
